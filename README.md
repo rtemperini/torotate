@@ -9,10 +9,6 @@ Client <---->   Privoxy <-> HAproxy <-> Tor Proxy 2
                                     <-> Tor Proxy n
 ```
 
-Optionaly adds support for [Privoxy](https://www.privoxy.org/) using
-`-e privoxy=1`, useful for http (default `8118`, changable via
-`-e privoxy_port=<port>`) proxy forward and ad removal.
-
 Environment Variables
 -----
  * `tors` - Integer, number of tor instances to run. (Default: 20)
@@ -45,13 +41,13 @@ docker build -t deepcrawler/torotate:latest .
 # start docker with privoxy enabled and exposed
 docker run -d -p 8118:8118 -p 2090:2090 -e tors=25 -e privoxy=1 deepcrawler/torotate
 
-# test with ...
+# test socket with ...
 curl --socks5 localhost:5566 http://httpbin.org/ip
 
-# or if privoxy enabled ...
+# test http proxy with...
 curl --proxy http://localhost:8118 http://httpbin.org/ip
 
-# or to run chromium with your new found proxy
+# or to run chromium with your new proxy
 chromium --proxy-server="http://localhost:8118" \
     --host-resolver-rules="MAP * 0.0.0.0 , EXCLUDE localhost"
 
